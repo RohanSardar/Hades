@@ -12,3 +12,4 @@ paramiko
 flask
 poetry
 absl-py
+google-cloud-aiplatform[adk,agent_engines]
