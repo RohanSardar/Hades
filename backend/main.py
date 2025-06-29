@@ -49,5 +49,7 @@ async def test_endpoint():
     """Test endpoint for debugging"""
     return {"message": "Test endpoint working", "timestamp": "2024-01-01T00:00:00Z"}
 
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=5000, reload=True) 

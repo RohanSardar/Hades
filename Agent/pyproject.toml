@@ -1,5 +1,5 @@
 [project]
-name = "PentestingAgent"
+name = "ControlAgent"
 version = "0.1.0"
 description = "A bot for pentesting"
 requires-python = ">=3.12"
@@ -17,14 +17,14 @@ cloudpickle = "^3.0.0"
 deprecated = "^1.2.18"
 
 [tool.poetry.scripts]
-PentestingAgent = "PentestingAgent:app"
+ControlAgent = "ControlAgent:app"
 deploy-local = "deployment.local:main"
 deploy-remote = "deployment.remote:main"
 cleanup = "deployment.cleanup:cleanup_deployment"
 
 [tool.poetry]
 package-mode = true
-packages = [{ include = "PentestingAgent" }]
+packages = [{ include = "ControlAgent" }]
 
 [build-system]
 requires = ["poetry-core"]

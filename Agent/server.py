@@ -16,7 +16,9 @@ vertexai.init(
 
 # Load the deployed agent
 AGENT_RESOURCE_ID = os.getenv("AGENT_RESOURCE_ID")
+CONTROL_RESOURCE_ID = os.getenv("CONTROL_RESOURCE_ID")
 remote_app = agent_engines.get(AGENT_RESOURCE_ID)
+control_app = agent_engines.get(CONTROL_RESOURCE_ID)
 
 app = FastAPI()
 
@@ -52,4 +54,29 @@ async def chat(req: ChatRequest):
             "response": response_text.strip(),
     }
 
+@app.post("/control")
+async def chat(req: ChatRequest):
+    if req.session_id:
+        session_id = req.session_id
+    else:
+        session = control_app.create_session(user_id=req.user_id)
+        session_id = session["id"]
 
+    response_text = ""
+
+    for event in control_app.stream_query(
+        user_id=req.user_id,
+        session_id=session_id,
+        message=req.message,
+    ):
+        print("DEBUG event:", event)
+
+        if "content" in event and "parts" in event["content"]:
+            for part in event["content"]["parts"]:
+                if "text" in part:
+                    response_text += part["text"]
+
+    return {
+            "session_id": session_id,
+            "response": response_text.strip(),
+    }

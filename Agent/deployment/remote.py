@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from vertexai import agent_engines
 from vertexai.preview import reasoning_engines
 
-from PentestingAgent.agent import root_agent
+from ControlAgent.agent import root_agent
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string("project_id", None, "GCP project ID.")
@@ -55,7 +55,7 @@ def create() -> None:
         requirements=[
             "google-cloud-aiplatform[adk,agent_engines]",
         ],
-        extra_packages=["./PentestingAgent"],
+        extra_packages=["./ControlAgent"],
     )
     print(f"Created remote app: {remote_app.resource_name}")
 
