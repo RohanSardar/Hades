@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 import uvicorn
+import requests
 
 app = FastAPI(title="Hades Backend", description="Backend API for Hades pentesting tool")
 
@@ -32,8 +33,13 @@ async def generate_command(request: CommandRequest):
     Returns:
         CommandResponse with the generated command and metadata
     """
-    agentURL = 
+    agentURL = 'http://localhost:8000/chat'
+    
     try:
+        response = requests.post(agentURL , {
+            'user_id':'test_user',
+            'message': request['prompt']
+        })
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating command: {str(e)}")
@@ -44,4 +50,4 @@ async def test_endpoint():
     return {"message": "Test endpoint working", "timestamp": "2024-01-01T00:00:00Z"}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080, reload=True) 
+    uvicorn.run(app, host="0.0.0.0", port=5000, reload=True) 
